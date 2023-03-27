@@ -1,4 +1,5 @@
 const { exec } = require("child_process");
+const fs = require('fs');
 
 module.exports = function (app) {
     app.route('/run_example').get(runExample)    
@@ -6,20 +7,20 @@ module.exports = function (app) {
 
 function runExample(req, res) {
  
+  exec("python3 ../core/extract.py --src ../cps.owl --des ../truncated.owl", (error, stdout, stderr) => {
+    if (error) {
+        console.log(`error: ${error.message}`);
+    }
+    if (stderr) {
+        console.log(`stderr: ${stderr}`);
+    }
 
-  exec("cd ../bin && java webserver.Run", (error, stdout, stderr) => {
-      if (error) {
-          console.log(`error: ${error.message}`);
-          return;
-      }
-      if (stderr) {
-          console.log(`stderr: ${stderr}`);
-          return;
-      }
-      console.log(`stdout: ${stdout}`);
-      stdout = stdout.replace("\n", "<br>");
-      stdout = stdout.replace("\t", "    ");
-      res.set('Content-Type', 'text/html');
-      res.send(`${stdout}`);
+    // attempt to read from file
+   
+        
+    // return the file
+    console.log(`stdout: ${stdout}`);
+    res.set('Content-Type', 'text/html');
+    res.download("../truncated.owl");
   });
 }
