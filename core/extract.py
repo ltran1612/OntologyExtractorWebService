@@ -11,6 +11,7 @@ def extract(src, des, node_class_with_instances_names):
     my_ontology.load()
 
     for myclass in node_class_with_instances_names:
+        print("removed")
         # print      
         before_nums = {}
         instances_names = node_class_with_instances_names[myclass]
@@ -20,7 +21,7 @@ def extract(src, des, node_class_with_instances_names):
         # permuation to test
         node_class = my_ontology[myclass]
 
-        extractor = Extractor(node_class, my_ontology)
+        extractor = Extractor(node_class)
         extractor.extract(instances_names)
 
         # print 
@@ -33,7 +34,6 @@ def extract(src, des, node_class_with_instances_names):
 
     # save the ontology
     # file path for saving
-    onto_path.append("./")
     my_ontology.save(file = des, format = "rdfxml")
 
 if __name__ == "__main__":
@@ -49,6 +49,7 @@ if __name__ == "__main__":
     raw_input = args.list
     prev = 0
     temp = []
+    i = 0
     for i in range(len(raw_input)):
         if raw_input[i] == '-':
             temp = raw_input[prev:i]
@@ -57,12 +58,7 @@ if __name__ == "__main__":
                 raise "List parameter not correct"
             class_vs_instances[temp[0]] = temp[1:]
             prev = i+1
-    
-    if i < len(raw_input):
-        temp = raw_input[prev:len(raw_input)]
-        if len(temp) < 2:
-            raise "List parameter not correct"
-        class_vs_instances[temp[0]] = temp[1:]
 
+    print(class_vs_instances)
     extract(args.src, args.des, class_vs_instances)
   

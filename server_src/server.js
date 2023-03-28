@@ -8,6 +8,9 @@ const port = 3000;
 // create the app
 const app = express()
 
+// use JSON module
+app.use(express.json())
+
 // import the routes
 require('./config/routes')(app)
 
