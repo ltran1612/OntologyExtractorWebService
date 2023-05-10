@@ -18,6 +18,28 @@ class EntityDestroyer:
 
         destroy_entity(instance)      
 
+class ExtractorSPARQL:
+    def __init__(self, ontology):
+        self.onto = ontology
+
+    def extract(self, node_names):
+        classes = {}
+        # get the classes
+        for node in node_names:
+            name = node[node.index("#")+1:] 
+            #
+            myclass = self.onto[name].is_a
+            for c in myclass:
+                classes[c] = c 
+        
+        for myclass in classes:
+            for node in myclass.instances():
+                if node.iri in node_names:  
+                        continue
+
+                destroy_entity(node)
+                    
+
 class Extractor:
 
     def __init__(self):
@@ -45,3 +67,4 @@ class Extractor:
         destroyer = EntityDestroyer(not_to_be_destroyed)
         for node in self.node_class.instances():
             destroyer.destroy_entity_recur(node)
+    
