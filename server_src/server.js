@@ -1,9 +1,10 @@
 // import packages
+require("dotenv").config();
 const express = require('express')
 
 // import the IP and port number
-const hostname = '127.0.0.1';
-const port = 3000;
+const hostname = process.env.HOSTNAME || '127.0.0.1';
+const port = process.env.PORT || 9001;
 
 // create the app
 const app = express()
